@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase/config';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import NewStudentForm from './forms/NewStudentForm';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -10,6 +11,7 @@ const Dashboard = () => {
     actividadesRecientes: []
   });
   const [loading, setLoading] = useState(true);
+  const [showNewStudentForm, setShowNewStudentForm] = useState(false);
 
   useEffect(() => {
     loadDashboardData();
@@ -17,13 +19,11 @@ const Dashboard = () => {
 
   const loadDashboardData = async () => {
     try {
-      // Obtener usuarios
       const usersRef = collection(db, 'usuarios');
       const usersSnapshot = await getDocs(usersRef);
       const estudiantes = usersSnapshot.docs.filter(doc => doc.data().role === 'estudiante');
       const profesores = usersSnapshot.docs.filter(doc => doc.data().role === 'profesor');
 
-      // Obtener actividades recientes (simulado por ahora)
       const actividades = [
         { id: 1, tipo: 'registro', usuario: 'María García', fecha: '2025-02-05 15:30:00', descripcion: 'Nuevo registro de estudiante' },
         { id: 2, tipo: 'curso', usuario: 'Prof. Juan López', fecha: '2025-02-05 14:45:00', descripcion: 'Curso de Pintura actualizado' },
@@ -90,7 +90,10 @@ const Dashboard = () => {
       <div style={styles.quickAccess}>
         <h2 style={styles.sectionTitle}>Accesos Rápidos</h2>
         <div style={styles.quickAccessGrid}>
-          <button style={styles.quickAccessButton}>
+          <button 
+            style={styles.quickAccessButton}
+            onClick={() => setShowNewStudentForm(true)}
+          >
             <span style={styles.buttonIcon}>➕</span>
             Nuevo Estudiante
           </button>
@@ -126,6 +129,11 @@ const Dashboard = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal de Nuevo Estudiante */}
+      {showNewStudentForm && (
+        <NewStudentForm onClose={() => setShowNewStudentForm(false)} />
+      )}
     </div>
   );
 };
