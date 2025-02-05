@@ -1,17 +1,28 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read: if true;
-      allow write: if true;
+    // Función auxiliar para verificar si el usuario está autenticado
+    function isAuthenticated() {
+      return request.auth != null;
     }
-    match /courses/{courseId} {
-      allow read: if true;
-      allow write: if true;
+    
+    // Función para verificar si el usuario es administrador
+    function isAdmin() {
+      return isAuthenticated() && 
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.role == 'admin';
     }
+    
+    // Reglas para la colección de usuarios
+    match /usuarios/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+    
+    // Reglas por defecto - denegar todo lo demás
     match /{document=**} {
-      allow read: if true;
-      allow write: if true;
+      allow read, write: if isAdmin();
     }
   }
 }
