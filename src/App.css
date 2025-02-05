@@ -1,0 +1,40 @@
+/* ... (mantener los estilos existentes) ... */
+
+.user-management {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.user-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.import-button {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+}
+
+.page-info {
+  font-weight: bold;
+}
+
+.page-size {
+  text-align: right;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+/* ... (resto de los estilos existentes) ... */
