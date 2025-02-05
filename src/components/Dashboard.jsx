@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { db, auth } from '../firebase/config';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import NewStudentForm from './forms/NewStudentForm';
+import DashboardCharts from './charts/DashboardCharts';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -10,6 +11,31 @@ const Dashboard = () => {
     totalCursos: 0,
     actividadesRecientes: []
   });
+  
+  const [chartData] = useState({
+    estudiantesPorMes: [
+      { mes: 'Ene', cantidad: 45 },
+      { mes: 'Feb', cantidad: 52 },
+      { mes: 'Mar', cantidad: 58 },
+      { mes: 'Abr', cantidad: 65 },
+      { mes: 'May', cantidad: 71 }
+    ],
+    distribucionCursos: [
+      { nombre: 'Pintura', estudiantes: 25 },
+      { nombre: 'Escultura', estudiantes: 15 },
+      { nombre: 'Dibujo', estudiantes: 30 },
+      { nombre: 'Fotografía', estudiantes: 20 },
+      { nombre: 'Artesanía', estudiantes: 18 }
+    ],
+    asistencia: [
+      { mes: 'Ene', porcentaje: 85 },
+      { mes: 'Feb', porcentaje: 88 },
+      { mes: 'Mar', porcentaje: 92 },
+      { mes: 'Abr', porcentaje: 90 },
+      { mes: 'May', porcentaje: 94 }
+    ]
+  });
+
   const [loading, setLoading] = useState(true);
   const [showNewStudentForm, setShowNewStudentForm] = useState(false);
 
@@ -86,6 +112,12 @@ const Dashboard = () => {
         </div>
       </div>
 
+      {/* Gráficas */}
+      <div style={styles.chartsSection}>
+        <h2 style={styles.sectionTitle}>Estadísticas</h2>
+        <DashboardCharts data={chartData} />
+      </div>
+
       {/* Accesos Rápidos */}
       <div style={styles.quickAccess}>
         <h2 style={styles.sectionTitle}>Accesos Rápidos</h2>
@@ -139,127 +171,9 @@ const Dashboard = () => {
 };
 
 const styles = {
-  container: {
-    padding: '20px',
-    maxWidth: '1200px',
-    margin: '0 auto',
-  },
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  // ... (estilos anteriores) ...
+  chartsSection: {
     marginBottom: '30px',
-  },
-  title: {
-    fontSize: '2em',
-    color: '#2d3748',
-    margin: 0,
-  },
-  userInfo: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    color: '#4a5568',
-  },
-  date: {
-    fontSize: '0.9em',
-    color: '#718096',
-  },
-  statsGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-    gap: '20px',
-    marginBottom: '30px',
-  },
-  statsCard: {
-    padding: '20px',
-    borderRadius: '10px',
-    color: 'white',
-    position: 'relative',
-    overflow: 'hidden',
-  },
-  statsNumber: {
-    fontSize: '2.5em',
-    margin: '10px 0',
-    fontWeight: 'bold',
-  },
-  statsIcon: {
-    position: 'absolute',
-    right: '20px',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    fontSize: '3em',
-    opacity: '0.3',
-  },
-  quickAccess: {
-    marginBottom: '30px',
-  },
-  sectionTitle: {
-    color: '#2d3748',
-    marginBottom: '20px',
-  },
-  quickAccessGrid: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-    gap: '15px',
-  },
-  quickAccessButton: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '15px',
-    backgroundColor: 'white',
-    border: '1px solid #e2e8f0',
-    borderRadius: '8px',
-    cursor: 'pointer',
-    transition: 'all 0.3s ease',
-    fontSize: '1em',
-  },
-  buttonIcon: {
-    marginRight: '10px',
-    fontSize: '1.2em',
-  },
-  recentActivities: {
-    backgroundColor: 'white',
-    padding: '20px',
-    borderRadius: '10px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-  },
-  activitiesList: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '15px',
-  },
-  activityCard: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: '15px',
-    backgroundColor: '#f7fafc',
-    borderRadius: '8px',
-  },
-  activityIcon: {
-    fontSize: '1.5em',
-    marginRight: '15px',
-  },
-  activityInfo: {
-    flex: 1,
-  },
-  activityTitle: {
-    margin: '0 0 5px 0',
-    color: '#2d3748',
-  },
-  activityMeta: {
-    margin: 0,
-    fontSize: '0.9em',
-    color: '#718096',
-  },
-  loading: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
-    fontSize: '1.2em',
-    color: '#4299e1',
   },
 };
 
