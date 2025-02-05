@@ -33,7 +33,7 @@ const Dashboard = () => {
       setStats({
         totalEstudiantes: estudiantes.length,
         totalProfesores: profesores.length,
-        totalCursos: 5, // Simulado por ahora
+        totalCursos: 5,
         actividadesRecientes: actividades
       });
     } catch (error) {
@@ -206,10 +206,6 @@ const styles = {
     cursor: 'pointer',
     transition: 'all 0.3s ease',
     fontSize: '1em',
-    '&:hover': {
-      backgroundColor: '#f7fafc',
-      transform: 'translateY(-2px)',
-    },
   },
   buttonIcon: {
     marginRight: '10px',
@@ -232,10 +228,6 @@ const styles = {
     padding: '15px',
     backgroundColor: '#f7fafc',
     borderRadius: '8px',
-    transition: 'transform 0.2s ease',
-    '&:hover': {
-      transform: 'translateX(5px)',
-    },
   },
   activityIcon: {
     fontSize: '1.5em',
